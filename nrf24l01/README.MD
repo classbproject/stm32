@@ -1,3 +1,5 @@
+Mods in this library port the code to use STM32's HAL functions.
+--------------------------------
 # nRF24L01+ Transceiver Library
 
 This "library" is aimed to deal with Nordic nRF24L01+ transceiver.
