@@ -1,5 +1,11 @@
-Mods in this library port the code to use STM32's HAL functions.
+Modified this library to use STM32's standard HAL functions.
+
+GPIO definitions have been disabled in `nrf24_hal.h` since HAL enables these in the respective peripheral `.c` file (or in `main.c`)
+
+Transmit code has been tested on a `STM32G070RB` and the receiver on a `STM32F407VG`.
+
 --------------------------------
+
 # nRF24L01+ Transceiver Library
 
 This "library" is aimed to deal with Nordic nRF24L01+ transceiver.

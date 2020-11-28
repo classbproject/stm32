@@ -1,2 +1,1 @@
-stm32
-=====
+These are a fork of [Lonely Wolf's excellent STM32 libraries](https://github.com/LonelyWolf/stm32). I've been updating a few of them to use HAL libraries. Modified libraries have a `[modified]` at the start of each folder name. 
