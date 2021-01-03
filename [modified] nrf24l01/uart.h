@@ -1,18 +1,17 @@
-#include "stm32f10x_rcc.h"
-#include "stm32f10x.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_usart.h"
+#include "stm32f4xx_rcc.h"
+#include "stm32f4xx.h"
+#include "stm32f4xx_gpio.h"
+#include "stm32f4xx_usart.h"
 #include "string.h"
-
 
 #define _UART_PORT 1
 
 #if _UART_PORT == 1
-	#define UART_PORT         USART1
-	#define UART_TX_PIN       GPIO_Pin_9    // PA9  (USART1_TX)
-	#define UART_RX_PIN       GPIO_Pin_10   // PA10 (USART1_RX)
-	#define UART_GPIO_PORT_TX GPIOA
-	#define UART_GPIO_PORT_RX UART_GPIO_PORT_TX
+#define UART_PORT         USART1
+#define UART_TX_PIN       GPIO_Pin_9    // PA9  (USART1_TX)
+#define UART_RX_PIN       GPIO_Pin_10   // PA10 (USART1_RX)
+#define UART_GPIO_PORT_TX GPIOA
+#define UART_GPIO_PORT_RX UART_GPIO_PORT_TX
 #elif _UART_PORT == 2
 	#define UART_PORT         USART2
 	#define UART_TX_PIN       GPIO_Pin_2    // PA2 (USART2_TX)
@@ -39,9 +38,7 @@
 	#define UART_GPIO_PORT_RX GPIOD
 #endif
 
-
 #define HEX_CHARS      "0123456789ABCDEF"
-
 
 void UART_Init(uint32_t baudrate);
 

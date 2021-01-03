@@ -11,6 +11,10 @@
 #define nRF24_ADDR_REVERSE         0
 #endif
 
+// Timeout counter (depends on the CPU speed)
+// Used for not stuck waiting for IRQ
+#define nRF24_WAIT_TIMEOUT         (uint32_t)0x000FFFFF
+
 // nRF24L0 instruction definitions
 #define nRF24_CMD_R_REGISTER       (uint8_t)0x00 // Register read
 #define nRF24_CMD_W_REGISTER       (uint8_t)0x20 // Register write
@@ -183,38 +187,49 @@ typedef enum
 	nRF24_RX_EMPTY = (uint8_t) 0xff  // The RX FIFO is empty
 } nRF24_RXResult;
 
+// Result of packet transmission
+typedef enum
+{
+	nRF24_TX_ERROR = (uint8_t) 0x00, // Unknown error
+	nRF24_TX_SUCCESS,                // Packet has been transmitted successfully
+	nRF24_TX_TIMEOUT,                // It was timeout during packet transmit
+	nRF24_TX_MAXRT                   // Transmit failed with maximum auto retransmit count
+} nRF24_TXResult;
+
 // Function prototypes
-void nRF24_Init (void);
-uint8_t nRF24_Check (void);
+void nRF24_Init(void);
+uint8_t nRF24_Check(void);
 
-void nRF24_SetPowerMode (uint8_t mode);
-void nRF24_SetOperationalMode (uint8_t mode);
-void nRF24_SetRFChannel (uint8_t channel);
-void nRF24_SetAutoRetr (uint8_t ard, uint8_t arc);
-void nRF24_SetAddrWidth (uint8_t addr_width);
-void nRF24_SetAddr (uint8_t pipe, const uint8_t *addr);
-void nRF24_SetTXPower (uint8_t tx_pwr);
-void nRF24_SetDataRate (uint8_t data_rate);
-void nRF24_SetCRCScheme (uint8_t scheme);
-void nRF24_SetRXPipe (uint8_t pipe, uint8_t aa_state, uint8_t payload_len);
-void nRF24_ClosePipe (uint8_t pipe);
-void nRF24_EnableAA (uint8_t pipe);
-void nRF24_DisableAA (uint8_t pipe);
+void nRF24_SetPowerMode(uint8_t mode);
+void nRF24_SetOperationalMode(uint8_t mode);
+void nRF24_SetRFChannel(uint8_t channel);
+void nRF24_SetAutoRetr(uint8_t ard, uint8_t arc);
+void nRF24_SetAddrWidth(uint8_t addr_width);
+void nRF24_SetAddr(uint8_t pipe, const uint8_t *addr);
+void nRF24_SetTXPower(uint8_t tx_pwr);
+void nRF24_SetDataRate(uint8_t data_rate);
+void nRF24_SetCRCScheme(uint8_t scheme);
+void nRF24_SetRXPipe(uint8_t pipe, uint8_t aa_state, uint8_t payload_len);
+void nRF24_ClosePipe(uint8_t pipe);
+void nRF24_EnableAA(uint8_t pipe);
+void nRF24_DisableAA(uint8_t pipe);
 
-uint8_t nRF24_GetAddrWidth (void);
-uint8_t nRF24_GetStatus (void);
-uint8_t nRF24_GetIRQFlags (void);
-uint8_t nRF24_GetStatus_RXFIFO (void);
-uint8_t nRF24_GetStatus_TXFIFO (void);
-uint8_t nRF24_GetRXSource (void);
-uint8_t nRF24_GetRetransmitCounters (void);
+uint8_t nRF24_GetAddrWidth(void);
+uint8_t nRF24_GetStatus(void);
+uint8_t nRF24_GetIRQFlags(void);
+uint8_t nRF24_GetStatus_RXFIFO(void);
+uint8_t nRF24_GetStatus_TXFIFO(void);
+uint8_t nRF24_GetRXSource(void);
+uint8_t nRF24_GetRetransmitCounters(void);
 
-void nRF24_ResetPLOS (void);
-void nRF24_FlushTX (void);
-void nRF24_FlushRX (void);
-void nRF24_ClearIRQFlags (void);
+void nRF24_ResetPLOS(void);
+void nRF24_FlushTX(void);
+void nRF24_FlushRX(void);
+void nRF24_ClearIRQFlags(void);
 
-void nRF24_WritePayload (uint8_t *pBuf, uint8_t length);
-nRF24_RXResult nRF24_ReadPayload (uint8_t *pBuf, uint8_t *length);
+void nRF24_WritePayload(uint8_t *pBuf, uint8_t length);
+nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length);
+void nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length);
+nRF24_TXResult Get_nRF24_TX_Status(void);
 
 #endif // __NRF24_H
